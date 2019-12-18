@@ -111,7 +111,26 @@ public class Group12_L1_Adil : MonoBehaviour
                 string txt = cubes[curr].transform.GetChild(0).GetComponent<TMP_InputField>().text;
                 //states_txt.text = ("Read : " + txt);
 
-                if (CState == "1")
+                if (CState == "0")
+                {
+                    if (txt == "a")
+                    {
+                        CState = "0";
+                        movement = "L";
+                    }
+                    else if (txt == "#")
+                    {
+                        CState = "5";
+                        movement = "R";
+                    }
+                    else
+                    {
+                        showAnimationReject = true;
+                        Validate_String();
+                        return;
+                    }
+                }
+                else if (CState == "1")
                 {
                     if (txt == "a")
                     {
