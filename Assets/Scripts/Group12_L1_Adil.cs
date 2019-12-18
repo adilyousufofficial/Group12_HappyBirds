@@ -9,24 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class Group12_L1_Adil : MonoBehaviour
 {
-    //{ww | w -> {a, b}*}
-    ////int states = 0, steps = 0;
-    //int no_spaces, repetitions, inner_spaces;
-    //int first_temp, last_temp;
-    //int writes = 0;
-    ////int first = 0;
-    //int rejectCount = 0;
-    //char fLT, lLT;
-
-
-    //bool testing = false;
-    //bool firstRun = true;
-    //bool oddStringLastStateChecker = false;
-
     List<GameObject> cubes = new List<GameObject>();
 
     public Text validation_txt, steps_txt;
-    //public TextMeshPro moveText;
 
     public InputField field;
 
@@ -51,20 +36,14 @@ public class Group12_L1_Adil : MonoBehaviour
     public AudioSource audioSrcReject;
     public AudioSource audioSrcForward;
     public AudioSource audioSrcBackward;
+
     //Animations Objects
-    //public Sprite[] //animatedImages;
-    //public Sprite[] //animatedReject;
-    //public Image //animatdImageAccept;
-    //public Image //animatdImageReject;
     bool showAnimationAccept = false;
     bool showAnimationReject = false;
     bool showAnimationAcceptOnce = false;
     bool showAnimationRejectOnce = false;
 
-
-
-
-    //string read = "", write = "", selectedValue = "";
+    float spacingBox = 2.0F;
     int curr = 0;
     int selected_box;
     bool created;
@@ -78,7 +57,6 @@ public class Group12_L1_Adil : MonoBehaviour
     {
         created = false;
         selected_box = 0;
-        HideAnimations();
         audioSrcBG.Play();
     }
 
@@ -109,7 +87,6 @@ public class Group12_L1_Adil : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 string txt = cubes[curr].transform.GetChild(0).GetComponent<TMP_InputField>().text;
-                //states_txt.text = ("Read : " + txt);
 
                 if (CState == "0")
                 {
@@ -385,7 +362,6 @@ public class Group12_L1_Adil : MonoBehaviour
                 }
                 steps_txt.text = ("State => Q" + CState);
                 Head_Direction(movement);
-                //print("290: movement: " + movement + " - State: " + CState);
             }
         }
     }
@@ -395,12 +371,9 @@ public class Group12_L1_Adil : MonoBehaviour
     {
         if (showAnimationAccept)
         {
-            //testing = false;
             validation_txt.color = Color.green;
             ShowAnimation("accept");
-            PlaySound("accept");
             validation_txt.text = "VALID STRING";
-            //Debug.Log("Valid " + writes);
             interfacee.SetActive(true);
             showAnimationAcceptOnce = true;
         }
@@ -411,7 +384,6 @@ public class Group12_L1_Adil : MonoBehaviour
                 checkReject = false;
                 validation_txt.color = Color.red;
                 ShowAnimation("reject");
-                PlaySound("reject");
                 print("346: checkReject: " + checkReject);
                 validation_txt.text = "INVALID STRING";
                 Debug.Log("INVALID STRING");
@@ -439,12 +411,9 @@ public class Group12_L1_Adil : MonoBehaviour
             moveLeft();
         }
     }
-    float spacingBox = 2.0F;
+
     public void moveRight()
     {
-        //print("Move Right");
-        //steps_txt.text = "Steps: " + ++steps;
-
         audioSrcForward.Play();
         angry_anim.GetComponent<Animator>().enabled = true;
         angry_anim.GetComponent<Animator>().Rebind();
@@ -498,42 +467,24 @@ public class Group12_L1_Adil : MonoBehaviour
         }
     }
 
-    //Play Sound
-    public void PlaySound(string audioFileName)
-    {
-        audioFile = Resources.Load<AudioClip>(audioFileName);
-        audioSrc.PlayOneShot(audioFile);
-    }
-
     //Animations
     public void ShowAnimation(string condition)
     {
         if (condition == "accept")
         {
-            HideAnimations(true, false);
             showAnimationReject = false;
             showAnimationAccept = true;
         }
         else if (condition == "reject")
         {
-            HideAnimations(false, true);
             showAnimationAccept = false;
             showAnimationReject = true;
         }
-    }
-    public void HideAnimations(bool accept = false, bool reject = false)
-    {
-        ////animatdImageAccept.sprite = //animatedImages[(int)(Time.time * 10) % //animatedImages.Length];
-        ////animatdImageAccept.GetComponent<Image>().enabled = accept;
-        ////animatdImageReject.sprite = //animatedReject[(int)(Time.time * 10) % //animatedReject.Length];
-        ////animatdImageReject.GetComponent<Image>().enabled = reject;
     }
 
     //Generating Cube on Button Click
     public void Generate()
     {
-        HideAnimations();
-        //StartCoroutine(SomeRoutine());
         if (created)
         {
             angry_anim.GetComponent<Animator>().Rebind();
@@ -542,25 +493,16 @@ public class Group12_L1_Adil : MonoBehaviour
             for (int i = 0; i < cubes.Count; i++)
                 Destroy(cubes[i].gameObject);
 
-
-            //	Destroy (can.transform.GetChild (0).gameObject);
             created = false;
             cubes.Clear();
-            //firstRun = true;
 
             Vector3 v = Cam.transform.position;
             v.x = 0;
             Cam.transform.position = v;
 
-            //no_spaces = 0;
-            //first_temp = 0;
-            //last_temp = 0;
-            //writes = 0;
             curr = 0;
-            //selectedValue = "";
             selected_box = 0;
             validation_txt.text = "";
-            //oddStringLastStateChecker = false;
             CState = "1";
             showAnimationAccept = false;
             showAnimationReject = false;
